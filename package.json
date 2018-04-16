@@ -1,0 +1,20 @@
+{
+  "name": "linkedin-version-update",
+  "version": "0.0.1",
+  "main": "main.js",
+  "author": "developer",
+  "description": "Checking Auto Update on LinkedIn",
+  "repository": "https://github.com/jebadar/linkedin-version-update",
+  "devDependencies": {
+    "electron": "^1.8.4",
+    "electron-builder": "^20.8.1"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "build --win",
+    "ship": "build --win -p always"
+  },
+  "dependencies": {
+    "electron-updater": "^2.21.4"
+  }
+}
