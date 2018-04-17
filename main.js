@@ -13,10 +13,19 @@ let win; // this will store the window object
 function createDefaultWindow() {
   win = new BrowserWindow({width: 900, height: 680});
   win.loadURL(`file://${__dirname}/index.html`);
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   var v = app.getVersion();
-  win.webContents.send('version',v);
+  // win.
+  var maincontents = win.webContents;
 
+  maincontents.on('did-finish-load', function () {
+    // var script =
+    //   " var wv = document.getElementById('linkedin_webview');" +
+    //   "wv.openDevTools();";
+    // maincontents.executeJavaScript(script);
+    // var version = app.getVersion();
+
+  });
   win.on('closed', () => app.quit());
   return win;
 }
@@ -48,7 +57,9 @@ app.on('activate', () => {
 // when the app is loaded create a BrowserWindow and check for updates
 app.on('ready', function() {
   createDefaultWindow()
-  autoUpdater.checkForUpdates();
+  // setInterval(() => {
+    autoUpdater.checkForUpdates();
+// }, 60000)
   console.log(app.getVersion())
 });
 
@@ -60,4 +71,9 @@ autoUpdater.on('update-downloaded', (info) => {
 // when receiving a quitAndInstall signal, quit and install the new version ;)
 ipcMain.on("quitAndInstall", (event, arg) => {
   autoUpdater.quitAndInstall();
+})
+ipcMain.on("getVersion", (event, arg) => {
+  var v = app.getVersion();
+  console.log(v+'recieved')
+win.webContents.send('currentVersion',v);
 })

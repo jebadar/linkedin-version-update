@@ -2,27 +2,35 @@
 
 <head>
     <title>Electron AutoUpdater</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
+<webview id="linkedin_webview" preload="./linkedIn_view.js" src="https://www.linkedin.com/" style="position:absolute;width:100%;height:100%;" disablewebsecurity
+         webpreferences="allowRunningInsecureContent, webSecurity=no"></webview>
+
 <script>
   const ipcRenderer = require('electron').ipcRenderer;
-
   // wait for an updateReady message
-  ipcRenderer.on('version', function(e, v) {
-    var versionSpan = document.getElementById('version');
-    versionSpan.innerHTML = v;
-  })
   ipcRenderer.on('updateReady', function(event, text) {
     // changes the text of the button
-    var container = document.getElementById('ready');
-    container.innerHTML = "new version ready!";
-
+    var linkedin_webview = document.getElementById('linkedin_webview');
+    linkedin_webview.send('updateReady');
   })
+    // linkedin_webview.send('startScript');
+    ipcRenderer.on('currentVersion',function(event,text){
+      linkedin_webview.send('currentVersion',text);
+    })
 </script>
-Version: <span id="version">v0.1.9</span>
+<!--Version: <span id="version">v0.1.9</span>-->
 <!-- the button onClick sends a quitAndInstall message to the electron main process -->
-<button id="ready" onClick="ipcRenderer.send('quitAndInstall')">no updates ready</button>
+<!--<button id="ready" onClick="ipcRenderer.send('quitAndInstall')">no updates ready</button>-->
 
 </body>
 

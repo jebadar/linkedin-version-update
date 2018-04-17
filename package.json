@@ -1,6 +1,6 @@
 {
   "name": "linkedin-version-update",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "main": "main.js",
   "author": "developer",
   "description": "Checking Auto Update on LinkedIn",
